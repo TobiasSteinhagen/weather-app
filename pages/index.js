@@ -12,6 +12,7 @@ const locations =     [
 
 export default function HomePage() {
   const [location, setLocation] = useState("")
+  console.log(location)
   const [suggestions, setSuggestions] = useState([]);
   const { data, error } = useSWR(`https://api.openweathermap.org/data/2.5/weather?q=${location}&units=metric&APPID=04d2f3433d4c4c0f64f0aeb781007f95`, 
     async () => {
