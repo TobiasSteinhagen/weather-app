@@ -1,5 +1,6 @@
 import Searchbar from "@/components/Searchbar";
 import Weather from "@/components/Weather";
+import Forecast from "@/components/Forecast";
 
 import useSWR from "swr";
 import { useState } from "react";
@@ -29,6 +30,7 @@ export default function HomePage() {
     <>
       <Searchbar setLocation={setLocation} />
       <Weather weatherData={weatherData} location={location} />
+      <Forecast location={location} />
     </>
   );
 }
