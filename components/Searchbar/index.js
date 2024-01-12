@@ -17,7 +17,6 @@ const locations =     [
 
   export default function Searchbar(){
     const [location, setLocation] = useState("")
-    console.log(location)
     const [suggestions, setSuggestions] = useState([]);
 
     const { data, error, isLoading } = useSWR(getApiURL(location), fetcher); 
@@ -37,24 +36,26 @@ const locations =     [
       
       function handleSubmit(event){
         event.preventDefault()
-        setLocation(event.target.location.value)
+        setLocation(event.target.search.value)
       }
 
     return(
+      <>
         <form onSubmit={handleSubmit}>
             <input
             type="search"
             list="suggestions"
             placeholder="Search your city..."
             onChange={handleChange}
-            name="location"
+            name="search"
             />
             <datalist id="suggestions">
             {suggestions.map((suggestion) => (
-            <option value={suggestion.city}></option>
+            <option key={suggestion.city} value={suggestion.city}></option>
             ))}
             </datalist>
             <button type="submit">Search</button>
         </form>
+      </>
     )
 }
