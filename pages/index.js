@@ -10,37 +10,21 @@ const locations =     [
   { city: "Los Angeles", countryCode: "US"},
 ]
 
+function getApiURL(location){
+  if(!location){
+    return null
+  }
+  return `https://api.openweathermap.org/data/2.5/weather?q=${location}&units=metric&APPID=04d2f3433d4c4c0f64f0aeb781007f95`
+}
+
 export default function HomePage() {
   const [location, setLocation] = useState("")
   console.log(location)
   const [suggestions, setSuggestions] = useState([]);
-  const { data, error } = useSWR(`https://api.openweathermap.org/data/2.5/weather?q=${location}&units=metric&APPID=04d2f3433d4c4c0f64f0aeb781007f95`, 
-    async () => {
-    const response = await axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${location}&units=metric&APPID=04d2f3433d4c4c0f64f0aeb781007f95`);
-    return response.data;
-}); 
+  const { data, error, isLoading } = useSWR(getApiURL(location), fetcher); 
 
-if (error) return (
-  <>
-    <form onSubmit={handleSubmit}>
-      <input
-      type="search"
-      list="suggestions"
-      placeholder="Search your city..."
-      onChange={handleChange}
-      onSubmit={handleSubmit}
-      />
-      <datalist id="suggestions">
-        {suggestions.map((suggestion) => (
-        <option value={suggestion.city}></option>
-        ))}
-      </datalist>
-      <button type="submit">Search</button>
-    </form>
-    Please search for your city.
-  </>
-  )
-if(!data) return <p>Loading...</p>
+if (error) return <p>Error loading the data</p> 
+if (isLoading) return <p>Loading...</p>
 
 function handleChange(event){
   if(event.target.value.length >= 2) {
@@ -53,8 +37,8 @@ function handleChange(event){
 }
 
 function handleSubmit(event){
-  event.preventDefault
-  setLocation(event.target.value)
+  event.preventDefault()
+  setLocation(event.target.location.value)
 }
 
 return (
@@ -65,7 +49,7 @@ return (
       list="suggestions"
       placeholder="Search your city..."
       onChange={handleChange}
-      onSubmit={handleSubmit}
+      name="location"
       />
       <datalist id="suggestions">
         {suggestions.map((suggestion) => (
@@ -74,7 +58,7 @@ return (
       </datalist>
       <button type="submit">Search</button>
     </form>
-    The weather in {location} is {data.main.temp}°.
+    The weather in {location} is {data?.main?.temp}°.
   </>
   );
 }
