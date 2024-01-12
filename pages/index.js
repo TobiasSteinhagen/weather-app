@@ -1,11 +1,10 @@
 import Searchbar from "@/components/Searchbar"
 
-export default function HomePage({data}) {
-  console.log(data)
+export default function HomePage() {
+  
 return (
   <>
     <Searchbar/>
-    The temperature in 
   </>
   );
 }
