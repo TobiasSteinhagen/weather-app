@@ -3,7 +3,7 @@ import {useState} from "react"
 
 const fetcher = (...args) => fetch(...args).then((res) => res.json())
 
-const locations =     [
+const locationData =     [
     { city: "Hamburg", countryCode: "DE"},
     { city: "Los Angeles", countryCode: "US"},
   ]
@@ -26,9 +26,9 @@ const locations =     [
 
     function handleChange(event){
         if(event.target.value.length >= 2) {
-          const filteredLocations = locations.filter((location) => location.city.toLowerCase().includes(event.target.value.toLowerCase())
+          const filteredLocationData = locationData.filter((locationData) => locationData.city.toLowerCase().includes(event.target.value.toLowerCase())
           );
-          setSuggestions(filteredLocations);        
+          setSuggestions(filteredLocationData);        
         } else {
           setSuggestions([]);
         }
