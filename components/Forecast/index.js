@@ -20,11 +20,11 @@ export default function Forecast({ location }) {
   if (error) return <p>Error loading the data</p>;
   if (isLoading) return <p>Loading...</p>;
 
-  const test = forecastData.list;
+  const forecasts = forecastData.list;
 
   return (
     <ul>
-      {test.map(({ dt, dt_txt, main }) => {
+      {forecasts.map(({ dt, dt_txt, main }) => {
         const date = new Date(dt_txt);
         const formattedDateTime = format(date, "dd.MM. HH:mm");
 
