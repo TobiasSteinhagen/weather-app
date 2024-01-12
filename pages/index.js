@@ -1,4 +1,5 @@
 import Searchbar from "@/components/Searchbar";
+import Weather from "@/components/Weather";
 
 import useSWR from "swr";
 import { useState } from "react";
@@ -14,10 +15,12 @@ function getApiURL(location) {
 
 export default function HomePage() {
   const [location, setLocation] = useState("");
-  console.log(location);
 
-  const { data, error, isLoading } = useSWR(getApiURL(location), fetcher);
-  console.log(data);
+  const {
+    data: weatherData,
+    error,
+    isLoading,
+  } = useSWR(getApiURL(location), fetcher);
 
   if (error) return <p>Error loading the data</p>;
   if (isLoading) return <p>Loading...</p>;
@@ -25,9 +28,7 @@ export default function HomePage() {
   return (
     <>
       <Searchbar setLocation={setLocation} />
-      {!data
-        ? `Please search for your city`
-        : `The current temperature in ${location} is ${data.main.temp}°C.`}
+      <Weather weatherData={weatherData} location={location} />
     </>
   );
 }
