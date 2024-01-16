@@ -23,6 +23,10 @@ export default function HomePage() {
     isLoading,
   } = useSWR(getApiURL(location), fetcher);
 
+  if (getApiURL(location) === null) {
+    return <Searchbar setLocation={setLocation} />;
+  }
+
   if (error) return <p>Error loading the data</p>;
   if (isLoading) return <p>Loading...</p>;
 
