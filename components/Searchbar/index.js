@@ -1,14 +1,16 @@
 import { useState } from "react";
 
 const locationData = [
-  { city: "Hamburg", countryCode: "DE" },
-  { city: "Los Angeles", countryCode: "US" },
+  { index: "0", city: "Hamburg", countryCode: "DE" },
+  { index: "1", city: "Los Angeles", countryCode: "US" },
+  { index: "2", city: "Hamburg", countryCode: "US" },
 ];
 export default function Searchbar({ setLocation }) {
   const [suggestions, setSuggestions] = useState([]);
+  const [value, setValue] = useState();
 
   function handleChange(event) {
-    if (event.target.value.length >= 2) {
+    if (event.target.value.length >= 3) {
       const filteredLocationData = locationData.filter((locationData) =>
         locationData.city
           .toLowerCase()
@@ -29,18 +31,25 @@ export default function Searchbar({ setLocation }) {
     <>
       <form onSubmit={handleSubmit}>
         <input
-          type="search"
-          list="suggestions"
+          type="text"
+          value={value}
           placeholder="Search your city..."
           onChange={handleChange}
           name="search"
         />
-        <datalist id="suggestions">
-          {suggestions.map((suggestion) => (
-            <option key={suggestion.city} value={suggestion.city}></option>
-          ))}
-        </datalist>
         <button type="submit">Search</button>
+        <div className="dropdown">
+          {suggestions.map((suggestion) => (
+            <div
+              key={suggestion.index}
+              onClick={() =>
+                setValue(`${suggestion.city}, ${suggestion.countryCode}`)
+              }
+            >
+              {suggestion.city}, {suggestion.countryCode}
+            </div>
+          ))}
+        </div>
       </form>
     </>
   );
