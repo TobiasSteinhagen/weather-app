@@ -7,9 +7,10 @@ const locationData = [
 ];
 export default function Searchbar({ setLocation }) {
   const [suggestions, setSuggestions] = useState([]);
-  const [value, setValue] = useState();
+  const [value, setValue] = useState("");
 
   function handleChange(event) {
+    setValue(event.target.value);
     if (event.target.value.length >= 3) {
       const filteredLocationData = locationData.filter((locationData) =>
         locationData.city
@@ -38,18 +39,20 @@ export default function Searchbar({ setLocation }) {
           name="search"
         />
         <button type="submit">Search</button>
-        <div className="dropdown">
+        <ul className={value.length >= 3 ? "dropdown" : ""}>
           {suggestions.map((suggestion) => (
-            <div
+            <li
+              className="searchbarContent"
               key={suggestion.index}
-              onClick={() =>
-                setValue(`${suggestion.city}, ${suggestion.countryCode}`)
-              }
+              onClick={() => {
+                setValue(`${suggestion.city}, ${suggestion.countryCode}`);
+                setSuggestions([]);
+              }}
             >
               {suggestion.city}, {suggestion.countryCode}
-            </div>
+            </li>
           ))}
-        </div>
+        </ul>
       </form>
     </>
   );
